@@ -10,6 +10,7 @@ export class Game {
     private textureManager: TextureManager;
     private pixiManager: PixiManager;
     private keyboardManager: KeyManager;
+    
 
     constructor() {
         this.textureManager = getServiceByClass(TextureManager);
