@@ -1,9 +1,10 @@
 import { TextureManager } from './texture-manager/texture-manager.service'
 import { SoundManager } from './sound-manager/sound-manager.service';
 import { PixiManager } from './pixi-manager/pixi-manager.service';
+import { KeyManager } from './keyboard-manager/key-manager.service';
 
 // To add a new class as a service, simply add the class name to this list.
-const imports = [TextureManager, SoundManager, PixiManager];
+const imports = [TextureManager, SoundManager, PixiManager, KeyManager];
 // To access the service from another file, call 'getServiceByClass(CLASS_NAME)'
 
 
