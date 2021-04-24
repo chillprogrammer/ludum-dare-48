@@ -57,5 +57,7 @@ export class Game {
      */
     gameLoop(delta: number) {
         //console.log(delta)
+
+        
     }
 }
