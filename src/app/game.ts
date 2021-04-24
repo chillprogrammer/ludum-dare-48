@@ -3,6 +3,7 @@ import { getServiceByClass } from './services/service-injector.module'
 import { PixiManager } from "./services/pixi-manager/pixi-manager.service";
 import { TextureManager } from './services/texture-manager/texture-manager.service'
 import { KeyManager } from "./services/keyboard-manager/key-manager.service";
+import { Enemy } from "./enemy";
 
 export class Game {
 
@@ -30,6 +31,8 @@ export class Game {
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
+
+        let enemy1 = new Enemy(Enemy.EnemyTypes.Enemy1);
     }
 
     /**
