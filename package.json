@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/chillprogrammer/web-game#readme",
   "devDependencies": {
+    "@types/howler": "^2.2.2",
     "@types/pixi.js": "^5.0.0",
     "copy-webpack-plugin": "^8.1.1",
     "ts-loader": "^8.1.0",
@@ -28,6 +29,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "howler": "^2.2.1",
     "pixi.js": "^6.0.2"
   }
 }
