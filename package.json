@@ -1,0 +1,33 @@
+{
+  "name": "web-game",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Joel Schechter",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js --mode=production",
+    "serve": "webpack serve --mode=development",
+    "test": "echo No unit tests have been implemented"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chillprogrammer/web-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chillprogrammer/web-game/issues"
+  },
+  "homepage": "https://github.com/chillprogrammer/web-game#readme",
+  "devDependencies": {
+    "@types/pixi.js": "^5.0.0",
+    "copy-webpack-plugin": "^8.1.1",
+    "ts-loader": "^8.1.0",
+    "typescript": "^4.2.4",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "pixi.js": "^6.0.2"
+  }
+}
