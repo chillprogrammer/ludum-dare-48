@@ -32,8 +32,8 @@ export class Game {
         this.app.ticker.add(delta => this.gameLoop(delta));
 
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
-        sound.loop(true)
-        sound.play();
+        //sound.loop(true)
+        //sound.play();
     }
 
     /**
