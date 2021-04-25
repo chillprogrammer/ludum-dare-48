@@ -33,6 +33,10 @@ export class Game {
     private player: Player;
     private enemyManager: EnemyManager;
 
+    //Useful variables
+    private secondsCounter: number = 0;
+    private depth: number = 0;
+
     constructor() {
         this.textureManager = getServiceByClass(TextureManager);
         this.pixiManager = getServiceByClass(PixiManager);
@@ -104,6 +108,17 @@ export class Game {
             //console.log('Title Screen');
         }
         else if (this.displayMode === this.DisplayModes.Game) {
+            
+            // Depth Counter
+            this.secondsCounter += (1 / 60) * delta;
+            if(this.secondsCounter >= 0.33) 
+            {
+                this.depth++;
+                console.log(`Depth: ${this.depth}m`);
+                this.secondsCounter = 0;
+            }
+
+            // Key List
             let keyList = this.keyboardManager.getKeyList();
 
             // WASD
