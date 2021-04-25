@@ -66,6 +66,13 @@ export class Game {
         sound.loop(true);
         //sound.play();
 
+        //Create the game loop.
+        this.app.ticker.add(delta => this.gameLoop(delta));
+    }
+
+    titleHidden() {
+        //console.log("title hidden");
+        this.player = new Player();
         this.enemyManager = new EnemyManager();
         this.fxManager = new FxManager();
         this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center' });
@@ -75,15 +82,12 @@ export class Game {
         this.depthCounter.x = 5;
         this.depthCounter.y = 5;
 
-        //Create the game loop.
-        this.app.ticker.add(delta => this.gameLoop(delta));
-    }
-
-    titleHidden() {
-        //console.log("title hidden");
-        this.player = new Player();
         this.displayMode = this.DisplayModes.Game;
         this.app.stage.addChild(this.depthCounter);
+    }
+
+    gameOver() {
+        this.displayMode = this.DisplayModes.Defeat;
     }
 
     /**
@@ -190,8 +194,12 @@ export class Game {
                 var ab = enemy.sprite.getBounds();
                 var bb = this.player.sprite.getBounds();
                 let collision: boolean = ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
-                if(collision) {
-                    this.player.takeDamage(5);
+                if (collision) {
+                    this.player.takeDamage(enemy.damage);
+                    if (this.player.health <= 0) {
+                        console.log("Player Dead!");
+                        this.gameOver();
+                    }
                     break;
                 }
             }
@@ -211,7 +219,9 @@ export class Game {
 
         }
         else if (this.displayMode === this.DisplayModes.Defeat) {
-            //console.log('Game Over');
+            if (this.fxManager) {
+                this.fxManager.update(delta);
+            }
         }
     }
 }

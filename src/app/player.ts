@@ -6,7 +6,7 @@ import { TextureManager } from "./services/texture-manager/texture-manager.servi
 
 export class Player {
 
-    private health: number = 100;
+    public health: number = 100;
     private speed: number = 0.8;
     public velocity: PIXI.Point;
     private MAX_VELOCITY: number = 10;
@@ -83,7 +83,7 @@ export class Player {
 
     takeDamage(damageAmount: number) {
         if (this.collisionCooldown === this.maxCollisionCooldown) {
-            //console.log('cooldown started')
+            console.log(`${damageAmount} damage!`)
             this.collisionCooldown -= 0.01;
             this.health -= damageAmount;
         }
@@ -94,7 +94,6 @@ export class Player {
             this.collisionCooldown -= 0.2 * delta;
         } else if (this.collisionCooldown <= 0) {
             this.collisionCooldown = this.maxCollisionCooldown;
-            //console.log('cooldown ended')
         }
 
         // If velocity is below a certain number, then player is stopped.
