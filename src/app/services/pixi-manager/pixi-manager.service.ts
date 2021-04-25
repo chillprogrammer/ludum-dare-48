@@ -2,8 +2,8 @@ import * as PIXI from "pixi.js"
 
 export class PixiManager {
 
-    private INITIAL_WIDTH = 960;
-    private INITIAL_HEIGHT = 540;
+    public static INITIAL_WIDTH = 960;
+    public static INITIAL_HEIGHT = 540;
     private app: PIXI.Application;
 
     constructor() {
@@ -33,6 +33,7 @@ export class PixiManager {
 
         //Create a Pixi Application
         this.app = new PIXI.Application();
+        this.app.renderer.backgroundColor = 0x00334D;
 
         //Add the pixi.js canvas to the HTML document
         document.body.appendChild(this.app.view);
@@ -56,7 +57,7 @@ export class PixiManager {
             this.app.renderer.view.style.display = "block";
 
             //Calculates what the Width & Height should be to fit the same aspect ratio on the screen.
-            const resolutionRatio = this.INITIAL_WIDTH / this.INITIAL_HEIGHT;
+            const resolutionRatio = PixiManager.INITIAL_WIDTH / PixiManager.INITIAL_HEIGHT;
             let calculatedWidth = width;
             let calculatedHeight = width / resolutionRatio;
             if (calculatedHeight > height) {
@@ -71,7 +72,7 @@ export class PixiManager {
             //This sets the game's dimensions to what we calculated.
             const ratio = Math.min(width / this.app.renderer.width, height / this.app.renderer.height);
             this.app.stage.scale.x = this.app.stage.scale.y = ratio;
-            this.app.renderer.resize(Math.ceil(this.INITIAL_WIDTH * ratio), Math.ceil(this.INITIAL_HEIGHT * ratio));
+            this.app.renderer.resize(Math.ceil(PixiManager.INITIAL_WIDTH * ratio), Math.ceil(PixiManager.INITIAL_HEIGHT * ratio));
         }
     }
 }

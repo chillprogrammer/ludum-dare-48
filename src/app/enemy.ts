@@ -32,21 +32,21 @@ export class Enemy {
     private init(enemyType: string) {
         this.pixiManager = getServiceByClass(PixiManager);
         this.textureManager = getServiceByClass(TextureManager);
-        
+
         // Randomize velocity 
-        this.randVelocityVal = (Math.ceil((Math.random()*4))+2) * (Math.round(Math.random()) ? 1 : -1);
-        this.velocity = new PIXI.Point(this.randVelocityVal,0);
+        this.randVelocityVal = (Math.ceil((Math.random() * 4)) + 2) * (Math.round(Math.random()) ? 1 : -1);
+        this.velocity = new PIXI.Point(this.randVelocityVal, 0);
 
         this.app = this.pixiManager.getApp();
         this.sprite = new PIXI.Sprite(this.textureManager.getTexture(enemyType));
         this.sprite.scale.set(1, 1);
 
         // Make sure negative velocity sprite starts from right
-        if(this.randVelocityVal<0){
-            this.sprite.x = 955;
+        if (this.randVelocityVal < 0) {
+            this.sprite.x = PixiManager.INITIAL_WIDTH + this.sprite.width;
         }
         this.app.stage.addChild(this.sprite);
-        console.log("velocity "+this.randVelocityVal);
+        //console.log("velocity " + this.randVelocityVal);
     }
 
     attack() {
@@ -63,16 +63,16 @@ export class Enemy {
 
     update(delta: number) {
 
-        if(this.sprite.position.x < -this.sprite.width) {
+        if (this.sprite.position.x < -this.sprite.width) {
             this.shouldDestroy = true;
         }
-        if(this.sprite.position.x > 960) {
+        if (this.sprite.position.x > PixiManager.INITIAL_WIDTH) {
             this.shouldDestroy = true;
         }
-        if(this.sprite.position.y < -this.sprite.height) {
+        if (this.sprite.position.y < -this.sprite.height) {
             this.shouldDestroy = true;
         }
-        if(this.sprite.position.y > 540) {
+        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT) {
             this.shouldDestroy = true;
         }
 
