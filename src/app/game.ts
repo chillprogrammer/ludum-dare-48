@@ -8,6 +8,7 @@ import { TitleScreen } from "./title";
 import { Player } from "./player";
 import { EnemyManager } from "./enemy-manager";
 import { FxManager } from "./fx-manager";
+import { HealthBar } from "./health-bar";
 
 export class Game {
 
@@ -27,9 +28,11 @@ export class Game {
     private pixiManager: PixiManager;
     private soundManager: SoundManager;
     private keyboardManager: KeyManager;
-    private titleScreen: TitleScreen;
+    
 
     // Objects
+    private titleScreen: TitleScreen;
+    private healthBar: HealthBar;
     private player: Player;
     private enemyManager: EnemyManager;
     private fxManager: FxManager;
@@ -44,6 +47,7 @@ export class Game {
         this.pixiManager = getServiceByClass(PixiManager);
         this.soundManager = getServiceByClass(SoundManager);
         this.keyboardManager = getServiceByClass(KeyManager);
+        this.healthBar = getServiceByClass(HealthBar);
 
         this.init();
     }
@@ -62,6 +66,7 @@ export class Game {
         this.titleScreen.showTitleScreen();
         document.addEventListener('titleHidden', this.titleHidden.bind(this));
 
+        // Play sound
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
         sound.loop(true);
         //sound.play();
@@ -71,7 +76,11 @@ export class Game {
     }
 
     titleHidden() {
-        //console.log("title hidden");
+
+        // Show health bar 
+        this.healthBar = new HealthBar();
+
+        // Show player
         this.player = new Player();
         this.enemyManager = new EnemyManager();
         this.fxManager = new FxManager();
@@ -122,6 +131,9 @@ export class Game {
             //console.log('Title Screen');
         }
         else if (this.displayMode === this.DisplayModes.Game) {
+
+            // Updating the health bar to players health
+            this.healthBar.setHealth(this.player.health);
 
             // Depth Counter
             this.secondsCounter += (1 / 60) * delta;
@@ -185,6 +197,7 @@ export class Game {
             // Space Bar
             if (keyList.includes(KeyManager.KEYS.SPACE)) {
                 //console.log("Space Bar Pressed")
+                this.healthBar.loseLife();
             }
 
             // Collision Detection
