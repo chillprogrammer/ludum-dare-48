@@ -6,7 +6,7 @@ import { TextureManager } from "./services/texture-manager/texture-manager.servi
 
 export class Player {
 
-    private health: number = 100;
+    public health: number = 100;
     private speed: number = 0.8;
     public velocity: PIXI.Point;
     private MAX_VELOCITY: number = 10;
