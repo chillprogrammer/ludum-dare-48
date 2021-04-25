@@ -10,38 +10,41 @@ export class TitleScreen {
     private textureManager: TextureManager;
     private background: PIXI.Sprite;
     private sprite: PIXI.Sprite;
-    
+
     constructor() {
         this.init();
     }
 
-    private init(){
+    private init() {
         this.pixiManager = getServiceByClass(PixiManager);
         this.textureManager = getServiceByClass(TextureManager);
         this.app = this.pixiManager.getApp();
         this.background = new PIXI.Sprite(this.textureManager.getTexture("title.png"));
-        this.background.scale.set(2,2);
+        this.background.scale.set(2, 2);
         this.app.stage.addChild(this.background);
         this.sprite = new PIXI.Sprite(this.textureManager.getTexture("newGame.png"));
-        this.sprite.scale.set(2,2);
+        this.sprite.scale.set(2, 2);
         this.sprite.x = 300;
         this.sprite.y = 222;
         this.sprite.interactive = true;
         this.mouseHandlers();
     }
 
-    mouseHandlers(){
-        (<any> this.sprite).on('mouseover', this.switchSprite);
-        (<any> this.sprite).on('click', this.hideTitleScreen);
+    mouseHandlers() {
+        (<any>this.sprite).on('mouseover', this.switchSprite);
+        (<any>this.sprite).on('mouseout', this.revertSprite);
+        (<any>this.sprite).on('click', this.hideTitleScreen);
     }
 
-    showTitleScreen(){
-        this.app.stage.addChild(this.sprite); 
+    showTitleScreen() {
+        this.app.stage.addChild(this.sprite);
     }
 
     switchSprite = (event: MouseEvent) => {
         this.sprite.texture = this.textureManager.getTexture("newGameOver.png");
-        console.log("over");
+    }
+    revertSprite = (event: MouseEvent) => {
+        this.sprite.texture = this.textureManager.getTexture("newGame.png");
     }
 
     hideTitleScreen = (event: MouseEvent) => {
@@ -50,5 +53,5 @@ export class TitleScreen {
         document.dispatchEvent(new CustomEvent("titleHidden"));
     }
 
-   
+
 }

@@ -5,6 +5,8 @@ import { TextureManager } from './services/texture-manager/texture-manager.servi
 
 export class Enemy {
 
+    public shouldDestroy: boolean = false;
+
     private health: number = 100;
     private speed: number = 5;
     private MAX_VELOCITY: number = 10;
@@ -51,8 +53,8 @@ export class Enemy {
         this.velocity.x += this.speed;
     }
 
-    die() {
-
+    remove() {
+        this.app.stage.removeChild(this.sprite);
     }
 
     explode() {
@@ -60,6 +62,20 @@ export class Enemy {
     }
 
     update(delta: number) {
+
+        if(this.sprite.position.x < -this.sprite.width) {
+            this.shouldDestroy = true;
+        }
+        if(this.sprite.position.x > 960) {
+            this.shouldDestroy = true;
+        }
+        if(this.sprite.position.y < -this.sprite.height) {
+            this.shouldDestroy = true;
+        }
+        if(this.sprite.position.y > 540) {
+            this.shouldDestroy = true;
+        }
+
 
         // Update the players position based on the current velocity.
         let xPos = this.sprite.position.x;
