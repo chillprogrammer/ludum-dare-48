@@ -142,6 +142,7 @@ export class Game {
                 //console.log("W Pressed")
                 if (this.player) {
                     this.player.moveUp();
+                    //this.player.jumpUp(delta);
                 }
             }
             if (keyList.includes(KeyManager.KEYS.A)) {
