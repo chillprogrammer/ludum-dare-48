@@ -9,6 +9,7 @@ export class Enemy {
 
     private health: number = 100;
     private speed: number = 5;
+    private floatUp: number = 2;
     private MAX_VELOCITY: number = 10;
     private SLOWDOWN_RATE: number = 0.5;
 
@@ -45,12 +46,15 @@ export class Enemy {
         if (this.randVelocityVal < 0) {
             this.sprite.x = PixiManager.INITIAL_WIDTH + this.sprite.width;
         }
+
+        // Randomize y position
+        this.sprite.y = Math.floor(Math.random() * (PixiManager.INITIAL_HEIGHT - 100)) +100;
+
         this.app.stage.addChild(this.sprite);
         //console.log("velocity " + this.randVelocityVal);
     }
 
     attack() {
-        this.velocity.x += this.speed;
     }
 
     remove() {
@@ -74,15 +78,14 @@ export class Enemy {
         if (this.sprite.position.y < -this.sprite.height) {
             this.shouldDestroy = true;
         }
-        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT - this.sprite.width) {
+        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT) {
             this.shouldDestroy = true;
         }
-
 
         // Update the players position based on the current velocity.
         let xPos = this.sprite.position.x;
         let yPos = this.sprite.position.y;
-        this.sprite.position.set(xPos + this.velocity.x * delta, yPos + this.velocity.y * delta);
+        this.sprite.position.set(xPos + this.velocity.x * delta, yPos + (this.velocity.y - 1) * delta);
     }
 
 }
