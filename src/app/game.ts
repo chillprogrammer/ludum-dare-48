@@ -185,7 +185,7 @@ export class Game {
             // Space Bar
             if (keyList.includes(KeyManager.KEYS.SPACE)) {
                 //console.log("Space Bar Pressed")
-                this.healthBar.loseLife();
+                
             }
 
             if (this.enemyManager) {
