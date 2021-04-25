@@ -23,6 +23,7 @@ export class Game {
 
     // Objects
     private player: Player;
+    private enemy: Enemy;
 
     constructor() {
         this.textureManager = getServiceByClass(TextureManager);
@@ -54,12 +55,13 @@ export class Game {
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
 
-        let enemy1 = new Enemy(Enemy.EnemyTypes.Enemy1);
+        
     }
 
     titleHidden() {
         console.log("title hidden");
         this.player = new Player();
+        this.enemy = new Enemy(Enemy.EnemyTypes.Enemy1);
     }
 
     /**
@@ -137,11 +139,13 @@ export class Game {
             //console.log("Space Bar Pressed")
         }
 
-
         // Update functions
-        if (this.player) {
-            this.player.update(delta);
-        }
-
+       if(this.player){
+        this.player.update(delta);
+       } 
+    
+       if(this.enemy){
+           this.enemy.update(delta);
+       }
     }
 }
