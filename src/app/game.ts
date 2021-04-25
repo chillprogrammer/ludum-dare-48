@@ -128,7 +128,8 @@ export class Game {
             if (keyList.includes(KeyManager.KEYS.W)) {
                 //console.log("W Pressed")
                 if (this.player) {
-                    this.player.moveUp();
+                    //this.player.moveUp();
+                    this.player.jumpUp(delta);
                 }
             }
             if (keyList.includes(KeyManager.KEYS.A)) {
@@ -139,9 +140,9 @@ export class Game {
             }
             if (keyList.includes(KeyManager.KEYS.S)) {
                 //console.log("S Pressed")
-                if (this.player) {
-                    this.player.moveDown();
-                }
+                //if (this.player) {
+                    //this.player.moveDown();
+                //}
             }
             if (keyList.includes(KeyManager.KEYS.D)) {
                 //console.log("D Pressed")

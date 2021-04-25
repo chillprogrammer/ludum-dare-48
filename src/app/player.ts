@@ -11,6 +11,8 @@ export class Player {
     public velocity: PIXI.Point;
     private MAX_VELOCITY: number = 10;
     private SLOWDOWN_RATE: number = 0.5;
+    private verticalSpeed: number = 0;
+    private jumping: boolean = false;
 
 
     private spritePath: string = 'player/pixil-frame-0.png'
@@ -33,12 +35,9 @@ export class Player {
         this.velocity = new PIXI.Point(0, 0);
         this.sprite = new Sprite(this.textureManager.getTexture(this.spritePath));
         this.sprite.position.x = (PixiManager.INITIAL_WIDTH / 2) - this.sprite.width;
-
+        this.sprite.position.y = (PixiManager.INITIAL_HEIGHT/3) - this.sprite.height;
         this.sprite.interactive = true;
-        (<any>this.sprite).on('click', () => {
-            console.log("Clicked on sprite");
-        });
-
+        
         this.app.stage.addChild(this.sprite);
     }
 
@@ -46,10 +45,34 @@ export class Player {
         this.velocity.y -= this.speed;
     }
 
-    moveDown() {
-        this.velocity.y += this.speed;
-    }
+    jumpUp(delta: number){
+        const player_floor = (PixiManager.INITIAL_HEIGHT/3) - this.sprite.height;
+        if(this.sprite.y >= player_floor){
+            this.sprite.y = player_floor;
+            this.verticalSpeed = 0;
+            this.jumping = false;
+        }
 
+        if(this.jumping){
+            this.verticalSpeed += delta* 1/3;
+        }
+
+        if(!this.jumping){
+            this.jumping = true;
+            this.verticalSpeed = -5;
+        }
+
+        this.sprite.y += this.verticalSpeed * delta;
+    }
+    /**
+     *  Player not supposed to go down - the world floats up instead
+     * 
+     *  moveDown() {
+        this.velocity.y += this.speed;
+        }
+     * 
+     */
+    
     moveLeft() {
         this.velocity.x -= this.speed;
     }
