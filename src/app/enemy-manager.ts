@@ -7,8 +7,28 @@ export class EnemyManager {
     constructor() { }
 
     spawnEnemy() {
-        let enemy = new Enemy(Enemy.EnemyTypes.Enemy1);
+        let enemyS = Math.ceil(Math.random() * 5)
+        if(enemyS == 1){
+            let enemy = new Enemy(Enemy.EnemyTypes.Enemy1);
         this.enemyList.push(enemy);
+        }
+        if(enemyS == 2){
+            let enemy = new Enemy(Enemy.EnemyTypes.Enemy2);
+        this.enemyList.push(enemy);
+        }
+        if(enemyS == 3){
+            let enemy = new Enemy(Enemy.EnemyTypes.Enemy3);
+        this.enemyList.push(enemy);
+        }
+        if(enemyS == 4){
+            let enemy = new Enemy(Enemy.EnemyTypes.Enemy4);
+        this.enemyList.push(enemy);
+        }
+        if(enemyS == 5){
+            let enemy = new Enemy(Enemy.EnemyTypes.Enemy5);
+        this.enemyList.push(enemy);
+        }
+        
     }
 
     update(delta: number) {
