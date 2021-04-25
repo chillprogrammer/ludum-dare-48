@@ -32,10 +32,11 @@ export class Player {
         this.app = this.pixiManager.getApp();
         this.velocity = new PIXI.Point(0, 0);
         this.sprite = new Sprite(this.textureManager.getTexture(this.spritePath));
+        this.sprite.position.x = (PixiManager.INITIAL_WIDTH / 2) - this.sprite.width;
 
         this.sprite.interactive = true;
         (<any>this.sprite).on('click', () => {
-            console.log("Clicked on sprite");
+            //console.log("Clicked on sprite");
         });
 
         this.app.stage.addChild(this.sprite);
@@ -96,21 +97,21 @@ export class Player {
         this.sprite.position.set(xPos + this.velocity.x * delta, yPos + this.velocity.y * delta);
 
         // Making sure the player doesnt leave the border.
-        if (this.sprite.position.x > 960 - this.sprite.width ){
-            this.sprite.position.x = 960 - this.sprite.width
+        if (this.sprite.position.x > PixiManager.INITIAL_WIDTH - this.sprite.width) {
+            this.sprite.position.x = PixiManager.INITIAL_WIDTH - this.sprite.width
         }
-        if (this.sprite.position.x < 0 ){
+        if (this.sprite.position.x < 0) {
             this.sprite.position.x = 0
         }
-        if (this.sprite.position.y > 540 - this.sprite.height ){
-            this.sprite.position.y = 540 - this.sprite.height
+        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT - this.sprite.height) {
+            this.sprite.position.y = PixiManager.INITIAL_HEIGHT - this.sprite.height
         }
-        if (this.sprite.position.y < 0 ){
+        if (this.sprite.position.y < 0) {
             this.sprite.position.y = 0
         }
 
 
-        
+
     }
 
 }

@@ -6,9 +6,19 @@ import { SoundManager } from "./services/sound-manager/sound-manager.service";
 import { KeyManager } from "./services/keyboard-manager/key-manager.service";
 import { TitleScreen } from "./title";
 import { Player } from "./player";
+import { EnemyManager } from "./enemy-manager";
+import { FxManager } from "./fx-manager";
 
 
 export class Game {
+
+    // Display Mode
+    private DisplayModes = {
+        Title: 0,
+        Game: 1,
+        Defeat: 2
+    }
+    private displayMode = this.DisplayModes.Title;
 
     // Pixi
     private app: PIXI.Application;
@@ -22,6 +32,12 @@ export class Game {
 
     // Objects
     private player: Player;
+    private enemyManager: EnemyManager;
+    private fxManager: FxManager;
+
+    // Useful variables
+    private secondsCounter: number = 0;
+    private depth: number = 0;
 
     constructor() {
         this.textureManager = getServiceByClass(TextureManager);
@@ -50,13 +66,17 @@ export class Game {
         sound.loop(true);
         sound.play();
 
+        this.enemyManager = new EnemyManager();
+        this.fxManager = new FxManager();
+
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
     }
 
-    titleHidden(){
-        console.log("title hidden");
+    titleHidden() {
+        //console.log("title hidden");
         this.player = new Player();
+        this.displayMode = this.DisplayModes.Game;
     }
 
     /**
@@ -87,50 +107,89 @@ export class Game {
      * @param delta the delta time between each frame
      */
     gameLoop(delta: number) {
-        let keyList = this.keyboardManager.getKeyList();
+        if (this.displayMode === this.DisplayModes.Title) {
+            //console.log('Title Screen');
+        }
+        else if (this.displayMode === this.DisplayModes.Game) {
 
-        // WASD
-        if (keyList.includes(KeyManager.KEYS.W)) {
-            //console.log("W Pressed")
-            this.player.moveUp();
-        }
-        if (keyList.includes(KeyManager.KEYS.A)) {
-            //console.log("A Pressed")
-            this.player.moveLeft();
-        }
-        if (keyList.includes(KeyManager.KEYS.S)) {
-            //console.log("S Pressed")
-            this.player.moveDown();
-        }
-        if (keyList.includes(KeyManager.KEYS.D)) {
-            //console.log("D Pressed")
-            this.player.moveRight();
-        }
+            // Depth Counter
+            this.secondsCounter += (1 / 60) * delta;
+            if (this.secondsCounter >= 0.33) {
+                this.depth++;
+                if(this.depth % 1 === 0) {
+                    this.fxManager.spawnBubble();
+                }
+                else if (this.depth % 10 === 0) {
+                    this.enemyManager.spawnEnemy();
+                }
+                //console.log(`Depth: ${this.depth}m`);
+                this.secondsCounter = 0;
+            }
 
-        // Arrow Keys
-        if (keyList.includes(KeyManager.KEYS.ARROW_UP)) {
-            //console.log("ARROW_UP Pressed")
-        }
-        if (keyList.includes(KeyManager.KEYS.ARROW_DOWN)) {
-            //console.log("ARROW_DOWN Pressed")
-        }
-        if (keyList.includes(KeyManager.KEYS.ARROW_LEFT)) {
-            //console.log("ARROW_LEFT Pressed")
-        }
-        if (keyList.includes(KeyManager.KEYS.ARROW_RIGHT)) {
-            //console.log("ARROW_RIGHT Pressed")
-        }
+            // Key List
+            let keyList = this.keyboardManager.getKeyList();
 
-        // Space Bar
-        if (keyList.includes(KeyManager.KEYS.SPACE)) {
-            //console.log("Space Bar Pressed")
+            // WASD
+            if (keyList.includes(KeyManager.KEYS.W)) {
+                //console.log("W Pressed")
+                if (this.player) {
+                    this.player.moveUp();
+                }
+            }
+            if (keyList.includes(KeyManager.KEYS.A)) {
+                //console.log("A Pressed")
+                if (this.player) {
+                    this.player.moveLeft();
+                }
+            }
+            if (keyList.includes(KeyManager.KEYS.S)) {
+                //console.log("S Pressed")
+                if (this.player) {
+                    this.player.moveDown();
+                }
+            }
+            if (keyList.includes(KeyManager.KEYS.D)) {
+                //console.log("D Pressed")
+                if (this.player) {
+                    this.player.moveRight();
+                }
+            }
+
+            // Arrow Keys
+            if (keyList.includes(KeyManager.KEYS.ARROW_UP)) {
+                //console.log("ARROW_UP Pressed")
+            }
+            if (keyList.includes(KeyManager.KEYS.ARROW_DOWN)) {
+                //console.log("ARROW_DOWN Pressed")
+            }
+            if (keyList.includes(KeyManager.KEYS.ARROW_LEFT)) {
+                //console.log("ARROW_LEFT Pressed")
+            }
+            if (keyList.includes(KeyManager.KEYS.ARROW_RIGHT)) {
+                //console.log("ARROW_RIGHT Pressed")
+            }
+
+            // Space Bar
+            if (keyList.includes(KeyManager.KEYS.SPACE)) {
+                //console.log("Space Bar Pressed")
+            }
+
+            if (this.enemyManager) {
+                this.enemyManager.update(delta);
+            }
+
+            // Update functions
+            if (this.player) {
+                this.player.update(delta);
+            }
+
+            if (this.fxManager) {
+                this.fxManager.update(delta);
+            }
+
         }
-
-
-        // Update functions
-       if(this.player){
-        this.player.update(delta);
-       } 
-        
+        else if (this.displayMode === this.DisplayModes.Defeat) {
+            //console.log('Game Over');
+        }
     }
 }
