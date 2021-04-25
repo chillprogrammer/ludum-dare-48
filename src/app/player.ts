@@ -24,11 +24,12 @@ export class Player {
     constructor() {
         this.pixiManager = getServiceByClass(PixiManager);
         this.textureManager = getServiceByClass(TextureManager);
-        this.app = this.pixiManager.getApp();
+
         this.init();
     }
 
     init() {
+        this.app = this.pixiManager.getApp();
         this.velocity = new PIXI.Point(0, 0);
         this.sprite = new Sprite(this.textureManager.getTexture(this.spritePath));
 
