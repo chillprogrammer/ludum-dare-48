@@ -94,6 +94,23 @@ export class Player {
         let xPos = this.sprite.position.x;
         let yPos = this.sprite.position.y;
         this.sprite.position.set(xPos + this.velocity.x * delta, yPos + this.velocity.y * delta);
+
+        // Making sure the player doesnt leave the border.
+        if (this.sprite.position.x > 960 - this.sprite.width ){
+            this.sprite.position.x = 960 - this.sprite.width
+        }
+        if (this.sprite.position.x < 0 ){
+            this.sprite.position.x = 0
+        }
+        if (this.sprite.position.y > 540 - this.sprite.height ){
+            this.sprite.position.y = 540 - this.sprite.height
+        }
+        if (this.sprite.position.y < 0 ){
+            this.sprite.position.y = 0
+        }
+
+
+        
     }
 
 }
