@@ -4,6 +4,7 @@ import { PixiManager } from "./services/pixi-manager/pixi-manager.service";
 import { TextureManager } from './services/texture-manager/texture-manager.service'
 import { SoundManager } from "./services/sound-manager/sound-manager.service";
 import { KeyManager } from "./services/keyboard-manager/key-manager.service";
+import { Enemy } from "./enemy";
 import { TitleScreen } from "./title";
 import { Player } from "./player";
 
@@ -52,6 +53,8 @@ export class Game {
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
+
+        let enemy1 = new Enemy(Enemy.EnemyTypes.Enemy1);
     }
 
     titleHidden() {
