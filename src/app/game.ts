@@ -64,16 +64,7 @@ export class Game {
 
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
         sound.loop(true);
-        sound.play();
-
-        this.enemyManager = new EnemyManager();
-        this.fxManager = new FxManager();
-        this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center'});
-        this.depthCounter.style.dropShadow = true;
-        this.depthCounter.style.dropShadowDistance = 4;
-        this.depthCounter.style.dropShadowColor = '0x222222'
-        this.depthCounter.x = 5;
-        this.depthCounter.y = 5;
+        //sound.play();
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
@@ -82,8 +73,21 @@ export class Game {
     titleHidden() {
         //console.log("title hidden");
         this.player = new Player();
+        this.enemyManager = new EnemyManager();
+        this.fxManager = new FxManager();
+        this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center' });
+        this.depthCounter.style.dropShadow = true;
+        this.depthCounter.style.dropShadowDistance = 4;
+        this.depthCounter.style.dropShadowColor = '0x222222';
+        this.depthCounter.x = 5;
+        this.depthCounter.y = 5;
+
         this.displayMode = this.DisplayModes.Game;
         this.app.stage.addChild(this.depthCounter);
+    }
+
+    gameOver() {
+        this.displayMode = this.DisplayModes.Defeat;
     }
 
     /**
@@ -183,6 +187,23 @@ export class Game {
                 //console.log("Space Bar Pressed")
             }
 
+            // Collision Detection
+            let enemyList = this.enemyManager.getEnemyList();
+            for (let i = 0; i < enemyList.length; ++i) {
+                let enemy = enemyList[i];
+                var ab = enemy.sprite.getBounds();
+                var bb = this.player.sprite.getBounds();
+                let collision: boolean = ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+                if (collision) {
+                    this.player.takeDamage(enemy.damage);
+                    if (this.player.health <= 0) {
+                        console.log("Player Dead!");
+                        this.gameOver();
+                    }
+                    break;
+                }
+            }
+
             if (this.enemyManager) {
                 this.enemyManager.update(delta);
             }
@@ -198,7 +219,9 @@ export class Game {
 
         }
         else if (this.displayMode === this.DisplayModes.Defeat) {
-            //console.log('Game Over');
+            if (this.fxManager) {
+                this.fxManager.update(delta);
+            }
         }
     }
 }

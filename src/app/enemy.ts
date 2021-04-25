@@ -16,8 +16,9 @@ export class Enemy {
     private app: PIXI.Application;
     private pixiManager: PixiManager;
     private textureManager: TextureManager;
-    private sprite: PIXI.Sprite;
+    public sprite: PIXI.Sprite;
     public velocity: PIXI.Point;
+    public damage: number = 1;
     public randVelocityVal: number;
 
     static EnemyTypes = {
@@ -45,10 +46,12 @@ export class Enemy {
         // Make sure negative velocity sprite starts from right
         if (this.randVelocityVal < 0) {
             this.sprite.x = PixiManager.INITIAL_WIDTH + this.sprite.width;
+        } else {
+            this.sprite.x = -this.sprite.width;
         }
 
         // Randomize y position
-        this.sprite.y = Math.floor(Math.random() * (PixiManager.INITIAL_HEIGHT - 100)) +100;
+        this.sprite.y = Math.floor(Math.random() * (PixiManager.INITIAL_HEIGHT - 100)) + 100;
 
         this.app.stage.addChild(this.sprite);
         //console.log("velocity " + this.randVelocityVal);

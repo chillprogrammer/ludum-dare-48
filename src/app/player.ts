@@ -6,7 +6,7 @@ import { TextureManager } from "./services/texture-manager/texture-manager.servi
 
 export class Player {
 
-    private health: number = 100;
+    public health: number = 100;
     private speed: number = 0.8;
     public velocity: PIXI.Point;
     private MAX_VELOCITY: number = 10;
@@ -16,12 +16,16 @@ export class Player {
 
 
     private spritePath: string = 'player/pixil-frame-0.png'
-    private sprite: PIXI.Sprite;
+    public sprite: PIXI.Sprite;
     private app: PIXI.Application;
 
     // Services
     private pixiManager: PixiManager;
     private textureManager: TextureManager;
+
+    // Useful variables
+    private collisionCooldown: number = 0;
+    private maxCollisionCooldown: number = 10;
 
     constructor() {
         this.pixiManager = getServiceByClass(PixiManager);
@@ -77,7 +81,21 @@ export class Player {
         this.velocity.x += this.speed;
     }
 
+    takeDamage(damageAmount: number) {
+        if (this.collisionCooldown === this.maxCollisionCooldown) {
+            console.log(`${damageAmount} damage!`)
+            this.collisionCooldown -= 0.01;
+            this.health -= damageAmount;
+        }
+    }
+
     update(delta: number) {
+        if (this.collisionCooldown > 0 && this.collisionCooldown < this.maxCollisionCooldown) {
+            this.collisionCooldown -= 0.2 * delta;
+        } else if (this.collisionCooldown <= 0) {
+            this.collisionCooldown = this.maxCollisionCooldown;
+        }
+
         // If velocity is below a certain number, then player is stopped.
         if (Math.abs(this.velocity.x) < this.SLOWDOWN_RATE) {
             this.velocity.x = 0;
@@ -128,8 +146,6 @@ export class Player {
         if (this.sprite.position.y < 0) {
             this.sprite.position.y = 0
         }
-
-
 
     }
 
