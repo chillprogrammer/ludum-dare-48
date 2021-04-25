@@ -18,7 +18,7 @@ export class Enemy {
     private textureManager: TextureManager;
     public sprite: PIXI.Sprite;
     public velocity: PIXI.Point;
-    public damage: number = 1;
+    public damage: number = 15;
     public randVelocityVal: number;
 
     static EnemyTypes = {
@@ -51,7 +51,7 @@ export class Enemy {
         }
 
         // Randomize y position
-        this.sprite.y = Math.floor(Math.random() * (PixiManager.INITIAL_HEIGHT - 100)) + 100;
+        this.sprite.y = Math.floor(Math.random() * (PixiManager.INITIAL_HEIGHT + 50)) + 100;
 
         this.app.stage.addChild(this.sprite);
         //console.log("velocity " + this.randVelocityVal);
@@ -81,7 +81,7 @@ export class Enemy {
         if (this.sprite.position.y < -this.sprite.height) {
             this.shouldDestroy = true;
         }
-        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT) {
+        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT + 500) {
             this.shouldDestroy = true;
         }
 

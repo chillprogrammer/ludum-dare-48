@@ -47,7 +47,6 @@ export class Game {
         this.pixiManager = getServiceByClass(PixiManager);
         this.soundManager = getServiceByClass(SoundManager);
         this.keyboardManager = getServiceByClass(KeyManager);
-        this.healthBar = getServiceByClass(HealthBar);
 
         this.init();
     }
@@ -197,7 +196,7 @@ export class Game {
             // Space Bar
             if (keyList.includes(KeyManager.KEYS.SPACE)) {
                 //console.log("Space Bar Pressed")
-                this.healthBar.loseLife();
+                //this.healthBar.loseLife();
             }
 
             // Collision Detection
