@@ -21,6 +21,10 @@ export class Player {
     private pixiManager: PixiManager;
     private textureManager: TextureManager;
 
+    // Useful variables
+    private collisionCooldown: number = 0;
+    private maxCollisionCooldown: number = 10;
+
     constructor() {
         this.pixiManager = getServiceByClass(PixiManager);
         this.textureManager = getServiceByClass(TextureManager);
@@ -58,7 +62,22 @@ export class Player {
         this.velocity.x += this.speed;
     }
 
+    takeDamage(damageAmount: number) {
+        if (this.collisionCooldown === this.maxCollisionCooldown) {
+            //console.log('cooldown started')
+            this.collisionCooldown -= 0.01;
+            this.health -= damageAmount;
+        }
+    }
+
     update(delta: number) {
+        if (this.collisionCooldown > 0 && this.collisionCooldown < this.maxCollisionCooldown) {
+            this.collisionCooldown -= 0.2 * delta;
+        } else if (this.collisionCooldown <= 0) {
+            this.collisionCooldown = this.maxCollisionCooldown;
+            //console.log('cooldown ended')
+        }
+
         // If velocity is below a certain number, then player is stopped.
         if (Math.abs(this.velocity.x) < this.SLOWDOWN_RATE) {
             this.velocity.x = 0;
@@ -109,8 +128,6 @@ export class Player {
         if (this.sprite.position.y < 0) {
             this.sprite.position.y = 0
         }
-
-
 
     }
 

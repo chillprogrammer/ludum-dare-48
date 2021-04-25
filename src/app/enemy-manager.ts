@@ -1,6 +1,4 @@
 import { Enemy } from "./enemy";
-import { PixiManager } from "./services/pixi-manager/pixi-manager.service";
-import { getServiceByClass } from "./services/service-injector.module";
 
 export class EnemyManager {
 

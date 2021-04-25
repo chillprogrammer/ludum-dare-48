@@ -190,7 +190,7 @@ export class Game {
                 var bb = this.player.sprite.getBounds();
                 let collision: boolean = ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
                 if(collision) {
-                    console.log("player hit")
+                    this.player.takeDamage(5);
                     break;
                 }
             }
