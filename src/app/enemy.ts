@@ -59,6 +59,8 @@ export class Enemy {
 
     remove() {
         this.app.stage.removeChild(this.sprite);
+        this.sprite.destroy();
+        this.sprite = null;
     }
 
     explode() {

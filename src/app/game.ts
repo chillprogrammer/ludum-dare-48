@@ -7,6 +7,7 @@ import { KeyManager } from "./services/keyboard-manager/key-manager.service";
 import { TitleScreen } from "./title";
 import { Player } from "./player";
 import { EnemyManager } from "./enemy-manager";
+import { FxManager } from "./fx-manager";
 
 
 export class Game {
@@ -32,6 +33,7 @@ export class Game {
     // Objects
     private player: Player;
     private enemyManager: EnemyManager;
+    private fxManager: FxManager;
 
     // Useful variables
     private secondsCounter: number = 0;
@@ -65,13 +67,14 @@ export class Game {
         sound.play();
 
         this.enemyManager = new EnemyManager();
+        this.fxManager = new FxManager();
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
     }
 
     titleHidden() {
-        console.log("title hidden");
+        //console.log("title hidden");
         this.player = new Player();
         this.displayMode = this.DisplayModes.Game;
     }
@@ -108,16 +111,18 @@ export class Game {
             //console.log('Title Screen');
         }
         else if (this.displayMode === this.DisplayModes.Game) {
-            
+
             // Depth Counter
             this.secondsCounter += (1 / 60) * delta;
-            if(this.secondsCounter >= 0.33) 
-            {
+            if (this.secondsCounter >= 0.33) {
                 this.depth++;
-                if(this.depth % 10 === 0) {
+                if(this.depth % 1 === 0) {
+                    this.fxManager.spawnBubble();
+                }
+                else if (this.depth % 10 === 0) {
                     this.enemyManager.spawnEnemy();
                 }
-                console.log(`Depth: ${this.depth}m`);
+                //console.log(`Depth: ${this.depth}m`);
                 this.secondsCounter = 0;
             }
 
@@ -178,6 +183,11 @@ export class Game {
             if (this.player) {
                 this.player.update(delta);
             }
+
+            if (this.fxManager) {
+                this.fxManager.update(delta);
+            }
+
         }
         else if (this.displayMode === this.DisplayModes.Defeat) {
             //console.log('Game Over');
