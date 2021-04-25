@@ -4,6 +4,7 @@ import { PixiManager } from "./services/pixi-manager/pixi-manager.service";
 import { TextureManager } from './services/texture-manager/texture-manager.service'
 import { SoundManager } from "./services/sound-manager/sound-manager.service";
 import { KeyManager } from "./services/keyboard-manager/key-manager.service";
+import { TitleScreen } from "./title";
 import { Player } from "./player";
 
 
@@ -17,6 +18,7 @@ export class Game {
     private pixiManager: PixiManager;
     private soundManager: SoundManager;
     private keyboardManager: KeyManager;
+    private titleScreen: TitleScreen;
 
     // Objects
     private player: Player;
@@ -39,14 +41,22 @@ export class Game {
 
         this.initializeResources();
 
+        // Show title screen 
+        this.titleScreen = new TitleScreen();
+        this.titleScreen.showTitleScreen();
+        document.addEventListener('titleHidden', this.titleHidden.bind(this));
+
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
         sound.loop(true);
         sound.play();
 
-        this.player = new Player();
-
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
+    }
+
+    titleHidden(){
+        console.log("title hidden");
+        this.player = new Player();
     }
 
     /**
@@ -118,6 +128,9 @@ export class Game {
 
 
         // Update functions
+       if(this.player){
         this.player.update(delta);
+       } 
+        
     }
 }
