@@ -24,7 +24,7 @@ export class KeyManager {
     }
 
     keyPressed(keyEvent: KeyboardEvent) {
-        //console.log('Pressed: ' + keyEvent.key);
+        //onsole.log('Pressed: ' + keyEvent.key);
         let key = keyEvent.key;
 
         if (!this.listOfKeys.includes(key)) {
