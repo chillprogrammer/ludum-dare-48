@@ -14,7 +14,7 @@ export class Player {
 
 
     private spritePath: string = 'player/pixil-frame-0.png'
-    private sprite: PIXI.Sprite;
+    public sprite: PIXI.Sprite;
     private app: PIXI.Application;
 
     // Services

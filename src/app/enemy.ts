@@ -15,7 +15,7 @@ export class Enemy {
     private app: PIXI.Application;
     private pixiManager: PixiManager;
     private textureManager: TextureManager;
-    private sprite: PIXI.Sprite;
+    public sprite: PIXI.Sprite;
     public velocity: PIXI.Point;
     public randVelocityVal: number;
 

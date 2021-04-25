@@ -64,14 +64,14 @@ export class Game {
 
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
         sound.loop(true);
-        sound.play();
+        //sound.play();
 
         this.enemyManager = new EnemyManager();
         this.fxManager = new FxManager();
-        this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center'});
+        this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center' });
         this.depthCounter.style.dropShadow = true;
         this.depthCounter.style.dropShadowDistance = 4;
-        this.depthCounter.style.dropShadowColor = '0x222222'
+        this.depthCounter.style.dropShadowColor = '0x222222';
         this.depthCounter.x = 5;
         this.depthCounter.y = 5;
 
@@ -180,6 +180,19 @@ export class Game {
             // Space Bar
             if (keyList.includes(KeyManager.KEYS.SPACE)) {
                 //console.log("Space Bar Pressed")
+            }
+
+            // Collision Detection
+            let enemyList = this.enemyManager.getEnemyList();
+            for (let i = 0; i < enemyList.length; ++i) {
+                let enemy = enemyList[i];
+                var ab = enemy.sprite.getBounds();
+                var bb = this.player.sprite.getBounds();
+                let collision: boolean = ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+                if(collision) {
+                    console.log("player hit")
+                    break;
+                }
             }
 
             if (this.enemyManager) {

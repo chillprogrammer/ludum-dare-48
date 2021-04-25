@@ -5,11 +5,8 @@ import { getServiceByClass } from "./services/service-injector.module";
 export class EnemyManager {
 
     private enemyList: Enemy[] = []
-    private pixiManager: PixiManager = getServiceByClass(PixiManager);
 
-    constructor() {
-
-    }
+    constructor() { }
 
     spawnEnemy() {
         let enemy = new Enemy(Enemy.EnemyTypes.Enemy1);
@@ -25,7 +22,7 @@ export class EnemyManager {
             else {
                 enemy.update(delta);
 
-                if(enemy.shouldDestroy) {
+                if (enemy.shouldDestroy) {
                     enemy.remove();
                     this.spawnEnemy();
                     this.enemyList.splice(i, 1);
@@ -34,4 +31,6 @@ export class EnemyManager {
             }
         }
     }
+
+    getEnemyList() { return this.enemyList }
 }
