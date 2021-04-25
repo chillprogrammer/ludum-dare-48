@@ -30,7 +30,7 @@ export class SoundManager {
     loadSoundIntoMemory(path: string): void {
         let sound = new Howl({
             src: [`${ASSET_FOLDER_PATH}/${path}`],
-            volume: 0.5
+            volume: 0.4
         });
         this.soundList.push({ path: path, sound: sound })
     }

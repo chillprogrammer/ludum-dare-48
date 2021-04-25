@@ -5,16 +5,23 @@ import { TextureManager } from './services/texture-manager/texture-manager.servi
 import { SoundManager } from "./services/sound-manager/sound-manager.service";
 import { KeyManager } from "./services/keyboard-manager/key-manager.service";
 import { TitleScreen } from "./title";
+import { Player } from "./player";
 
 
 export class Game {
 
+    // Pixi
     private app: PIXI.Application;
+
+    // Services
     private textureManager: TextureManager;
     private pixiManager: PixiManager;
     private soundManager: SoundManager;
     private keyboardManager: KeyManager;
     private titleScreen: TitleScreen;
+
+    // Objects
+    private player: Player;
 
     constructor() {
         this.textureManager = getServiceByClass(TextureManager);
@@ -37,13 +44,14 @@ export class Game {
         // Show title screen 
         this.titleScreen = new TitleScreen();
         this.titleScreen.showTitleScreen();
+        let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
+        sound.loop(true);
+        sound.play();
+
+        this.player = new Player();
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
-
-        let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
-        //sound.loop(true)
-        //sound.play();
     }
 
     /**
@@ -78,35 +86,43 @@ export class Game {
 
         // WASD
         if (keyList.includes(KeyManager.KEYS.W)) {
-            console.log("W Pressed")
+            //console.log("W Pressed")
+            this.player.moveUp();
         }
         if (keyList.includes(KeyManager.KEYS.A)) {
-            console.log("A Pressed")
+            //console.log("A Pressed")
+            this.player.moveLeft();
         }
         if (keyList.includes(KeyManager.KEYS.S)) {
-            console.log("S Pressed")
+            //console.log("S Pressed")
+            this.player.moveDown();
         }
         if (keyList.includes(KeyManager.KEYS.D)) {
-            console.log("D Pressed")
+            //console.log("D Pressed")
+            this.player.moveRight();
         }
 
         // Arrow Keys
         if (keyList.includes(KeyManager.KEYS.ARROW_UP)) {
-            console.log("ARROW_UP Pressed")
+            //console.log("ARROW_UP Pressed")
         }
         if (keyList.includes(KeyManager.KEYS.ARROW_DOWN)) {
-            console.log("ARROW_DOWN Pressed")
+            //console.log("ARROW_DOWN Pressed")
         }
         if (keyList.includes(KeyManager.KEYS.ARROW_LEFT)) {
-            console.log("ARROW_LEFT Pressed")
+            //console.log("ARROW_LEFT Pressed")
         }
         if (keyList.includes(KeyManager.KEYS.ARROW_RIGHT)) {
-            console.log("ARROW_RIGHT Pressed")
+            //console.log("ARROW_RIGHT Pressed")
         }
 
         // Space Bar
         if (keyList.includes(KeyManager.KEYS.SPACE)) {
-            console.log("Space Bar Pressed")
+            //console.log("Space Bar Pressed")
         }
+
+
+        // Update functions
+        this.player.update(delta);
     }
 }
