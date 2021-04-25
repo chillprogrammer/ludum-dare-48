@@ -3,6 +3,8 @@ import { getServiceByClass } from './services/service-injector.module'
 import { PixiManager } from "./services/pixi-manager/pixi-manager.service";
 import { TextureManager } from './services/texture-manager/texture-manager.service'
 import { KeyManager } from "./services/keyboard-manager/key-manager.service";
+import { TitleScreen } from "./title";
+
 
 export class Game {
 
@@ -10,6 +12,7 @@ export class Game {
     private textureManager: TextureManager;
     private pixiManager: PixiManager;
     private keyboardManager: KeyManager;
+    private titleScreen: TitleScreen;
 
     constructor() {
         this.textureManager = getServiceByClass(TextureManager);
@@ -27,6 +30,10 @@ export class Game {
         this.app = this.pixiManager.getApp();
 
         this.initializeResources();
+
+        // Show title screen 
+        this.titleScreen = new TitleScreen();
+        this.titleScreen.showTitleScreen();
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
