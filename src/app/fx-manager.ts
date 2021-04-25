@@ -47,7 +47,7 @@ export class FxManager {
                 bubble.graphic.position.y -= bubble.floatSpeed * delta;
 
                 // Cleanup bubble if off screen
-                if (bubble.graphic.position.y < -PixiManager.INITIAL_HEIGHT) {
+                if (bubble.graphic.position.y < -PixiManager.INITIAL_HEIGHT - bubble.graphic.height) {
                     this.pixiManager.getApp().stage.removeChild(bubble.graphic);
                     this.bubbleList.splice(i, 1);
                     bubble.graphic.clear();

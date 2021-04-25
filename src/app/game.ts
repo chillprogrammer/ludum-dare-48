@@ -9,7 +9,6 @@ import { Player } from "./player";
 import { EnemyManager } from "./enemy-manager";
 import { FxManager } from "./fx-manager";
 
-
 export class Game {
 
     // Display Mode
@@ -34,6 +33,7 @@ export class Game {
     private player: Player;
     private enemyManager: EnemyManager;
     private fxManager: FxManager;
+    private depthCounter: PIXI.Text;
 
     // Useful variables
     private secondsCounter: number = 0;
@@ -68,6 +68,12 @@ export class Game {
 
         this.enemyManager = new EnemyManager();
         this.fxManager = new FxManager();
+        this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center'});
+        this.depthCounter.style.dropShadow = true;
+        this.depthCounter.style.dropShadowDistance = 4;
+        this.depthCounter.style.dropShadowColor = '0x222222'
+        this.depthCounter.x = 5;
+        this.depthCounter.y = 5;
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
@@ -77,6 +83,7 @@ export class Game {
         //console.log("title hidden");
         this.player = new Player();
         this.displayMode = this.DisplayModes.Game;
+        this.app.stage.addChild(this.depthCounter);
     }
 
     /**
@@ -116,10 +123,11 @@ export class Game {
             this.secondsCounter += (1 / 60) * delta;
             if (this.secondsCounter >= 0.33) {
                 this.depth++;
-                if(this.depth % 1 === 0) {
+                this.depthCounter.text = `Depth: ${this.depth} meters`;
+                if (this.depth % 1 === 0) {
                     this.fxManager.spawnBubble();
                 }
-                else if (this.depth % 10 === 0) {
+                if (this.depth % 10 === 0) {
                     this.enemyManager.spawnEnemy();
                 }
                 //console.log(`Depth: ${this.depth}m`);
