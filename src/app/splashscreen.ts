@@ -35,6 +35,7 @@ export class SplashScreen {
 
     cleanUp() {
         this.app.stage.removeChild(this.sprite);
+        this.sprite.destroy();
         this.sprite = null;
         this.textureManager.removeTextureFromMemory("splashscreen.png");
     }

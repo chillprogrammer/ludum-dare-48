@@ -36,7 +36,7 @@ export class Player {
 
         this.sprite.interactive = true;
         (<any>this.sprite).on('click', () => {
-            console.log("Clicked on sprite");
+            //console.log("Clicked on sprite");
         });
 
         this.app.stage.addChild(this.sprite);
