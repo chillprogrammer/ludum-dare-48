@@ -12,8 +12,6 @@ export class FxManager {
 
     private pixiManager: PixiManager = getServiceByClass(PixiManager);
 
-    private bubbleFloatSpeed: number = 0.5;
-
     constructor() {
         this.init();
     }
@@ -32,7 +30,7 @@ export class FxManager {
         gr.endFill();
         this.pixiManager.getApp().stage.addChild(gr);
 
-        let floatSpeed = Math.ceil(Math.random() * 5 + 0.5);
+        let floatSpeed = Math.ceil(Math.random() * 3 + 1);
         this.bubbleList.push({
             graphic: gr,
             floatSpeed: floatSpeed
@@ -46,7 +44,7 @@ export class FxManager {
                 this.bubbleList.splice(i, 1);
             }
             else {
-                bubble.graphic.position.y -= bubble.floatSpeed;
+                bubble.graphic.position.y -= bubble.floatSpeed * delta;
 
                 // Cleanup bubble if off screen
                 if (bubble.graphic.position.y < -PixiManager.INITIAL_HEIGHT) {
