@@ -21,9 +21,11 @@ export class Enemy {
     public randVelocityVal: number;
 
     static EnemyTypes = {
-        Enemy1: 'enemy1.gif',
-        Enemy2: 'b',
-        Enemy3: 'c'
+        Enemy1: 'enemy1.png',
+        Enemy2: 'enemy2.png',
+        Enemy3: 'enemy3.png',
+        Enemy4: 'enemy4.png',
+        Enemy5: 'enemy5.png',
     }
 
     constructor(enemyType: string) {
