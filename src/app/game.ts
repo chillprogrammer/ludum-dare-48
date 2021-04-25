@@ -54,7 +54,7 @@ export class Game {
         this.app.ticker.add(delta => this.gameLoop(delta));
     }
 
-    titleHidden(){
+    titleHidden() {
         console.log("title hidden");
         this.player = new Player();
     }
@@ -92,19 +92,27 @@ export class Game {
         // WASD
         if (keyList.includes(KeyManager.KEYS.W)) {
             //console.log("W Pressed")
-            this.player.moveUp();
+            if (this.player) {
+                this.player.moveUp();
+            }
         }
         if (keyList.includes(KeyManager.KEYS.A)) {
             //console.log("A Pressed")
-            this.player.moveLeft();
+            if (this.player) {
+                this.player.moveLeft();
+            }
         }
         if (keyList.includes(KeyManager.KEYS.S)) {
             //console.log("S Pressed")
-            this.player.moveDown();
+            if (this.player) {
+                this.player.moveDown();
+            }
         }
         if (keyList.includes(KeyManager.KEYS.D)) {
             //console.log("D Pressed")
-            this.player.moveRight();
+            if (this.player) {
+                this.player.moveRight();
+            }
         }
 
         // Arrow Keys
@@ -128,9 +136,9 @@ export class Game {
 
 
         // Update functions
-       if(this.player){
-        this.player.update(delta);
-       } 
-        
+        if (this.player) {
+            this.player.update(delta);
+        }
+
     }
 }
