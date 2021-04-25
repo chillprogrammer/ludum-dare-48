@@ -44,14 +44,19 @@ export class Game {
         // Show title screen 
         this.titleScreen = new TitleScreen();
         this.titleScreen.showTitleScreen();
+        document.addEventListener('titleHidden', this.titleHidden.bind(this));
+
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
         sound.loop(true);
         sound.play();
 
-        this.player = new Player();
-
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
+    }
+
+    titleHidden(){
+        console.log("title hidden");
+        this.player = new Player();
     }
 
     /**
@@ -123,6 +128,9 @@ export class Game {
 
 
         // Update functions
+       if(this.player){
         this.player.update(delta);
+       } 
+        
     }
 }

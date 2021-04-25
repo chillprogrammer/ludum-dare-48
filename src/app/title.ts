@@ -10,8 +10,7 @@ export class TitleScreen {
     private textureManager: TextureManager;
     private background: PIXI.Sprite;
     private sprite: PIXI.Sprite;
-    private textureButtonOver: PIXI.Texture;
-
+    
     constructor() {
         this.init();
     }
@@ -37,16 +36,19 @@ export class TitleScreen {
     }
 
     showTitleScreen(){
-        this.app.stage.addChild(this.sprite);
+        this.app.stage.addChild(this.sprite); 
     }
 
     switchSprite = (event: MouseEvent) => {
-        this.sprite.texture = this.textureManager.getTexture("newGameOver.png");;
+        this.sprite.texture = this.textureManager.getTexture("newGameOver.png");
         console.log("over");
     }
 
     hideTitleScreen = (event: MouseEvent) => {
         this.app.stage.removeChild(this.sprite);
         this.app.stage.removeChild(this.background);
+        document.dispatchEvent(new CustomEvent("titleHidden"));
     }
+
+   
 }
