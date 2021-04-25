@@ -45,7 +45,7 @@ export class Player {
         this.velocity.y -= this.speed;
     }
 
-    jumpUp(delta: number){
+    jumpUp(delta: number){ 
         const player_floor = (PixiManager.INITIAL_HEIGHT/3) - this.sprite.height;
         if(this.sprite.y >= player_floor){
             this.sprite.y = player_floor;
@@ -64,14 +64,10 @@ export class Player {
 
         this.sprite.y += this.verticalSpeed * delta;
     }
-    /**
-     *  Player not supposed to go down - the world floats up instead
-     * 
-     *  moveDown() {
-        this.velocity.y += this.speed;
-        }
-     * 
-     */
+
+    moveDown() {
+       this.velocity.y += this.speed;
+    }
     
     moveLeft() {
         this.velocity.x -= this.speed;
