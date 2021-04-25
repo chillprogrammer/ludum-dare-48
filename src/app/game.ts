@@ -33,7 +33,7 @@ export class Game {
     private player: Player;
     private enemyManager: EnemyManager;
 
-    //Useful variables
+    // Useful variables
     private secondsCounter: number = 0;
     private depth: number = 0;
 
@@ -114,6 +114,9 @@ export class Game {
             if(this.secondsCounter >= 0.33) 
             {
                 this.depth++;
+                if(this.depth % 10 === 0) {
+                    this.enemyManager.spawnEnemy();
+                }
                 console.log(`Depth: ${this.depth}m`);
                 this.secondsCounter = 0;
             }

@@ -66,13 +66,13 @@ export class Enemy {
         if (this.sprite.position.x < -this.sprite.width) {
             this.shouldDestroy = true;
         }
-        if (this.sprite.position.x > PixiManager.INITIAL_WIDTH) {
+        if (this.sprite.position.x > PixiManager.INITIAL_WIDTH + this.sprite.width * 2) {
             this.shouldDestroy = true;
         }
         if (this.sprite.position.y < -this.sprite.height) {
             this.shouldDestroy = true;
         }
-        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT) {
+        if (this.sprite.position.y > PixiManager.INITIAL_HEIGHT - this.sprite.width) {
             this.shouldDestroy = true;
         }
 
