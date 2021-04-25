@@ -28,7 +28,7 @@ export class Game {
     private pixiManager: PixiManager;
     private soundManager: SoundManager;
     private keyboardManager: KeyManager;
-    
+
 
     // Objects
     private titleScreen: TitleScreen;
@@ -127,12 +127,9 @@ export class Game {
      */
     gameLoop(delta: number) {
         if (this.displayMode === this.DisplayModes.Title) {
-            //console.log('Title Screen');
+
         }
         else if (this.displayMode === this.DisplayModes.Game) {
-
-            // Updating the health bar to players health
-            this.healthBar.setHealth(this.player.health);
 
             // Depth Counter
             this.secondsCounter += (1 / 60) * delta;
@@ -145,7 +142,6 @@ export class Game {
                 if (this.depth % 10 === 0) {
                     this.enemyManager.spawnEnemy();
                 }
-                //console.log(`Depth: ${this.depth}m`);
                 this.secondsCounter = 0;
             }
 
@@ -154,26 +150,21 @@ export class Game {
 
             // WASD
             if (keyList.includes(KeyManager.KEYS.W)) {
-                //console.log("W Pressed")
                 if (this.player) {
                     this.player.moveUp();
-                    //this.player.jumpUp(delta);
                 }
             }
             if (keyList.includes(KeyManager.KEYS.A)) {
-                //console.log("A Pressed")
                 if (this.player) {
                     this.player.moveLeft();
                 }
             }
             if (keyList.includes(KeyManager.KEYS.S)) {
-                //console.log("S Pressed")
                 if (this.player) {
                     this.player.moveDown();
                 }
             }
             if (keyList.includes(KeyManager.KEYS.D)) {
-                //console.log("D Pressed")
                 if (this.player) {
                     this.player.moveRight();
                 }
@@ -209,12 +200,16 @@ export class Game {
                 if (collision) {
                     this.player.takeDamage(enemy.damage);
                     if (this.player.health <= 0) {
+                        this.player.health = 0;
                         console.log("Player Dead!");
                         this.gameOver();
                     }
                     break;
                 }
             }
+
+            // Updating the health bar to players health
+            this.healthBar.setHealth(this.player.health);
 
             if (this.enemyManager) {
                 this.enemyManager.update(delta);
