@@ -42,6 +42,7 @@ export class Enemy {
         // Make sure negative velocity sprite starts from right
         if (this.randVelocityVal < 0) {
             this.sprite.x = PixiManager.INITIAL_WIDTH + this.sprite.width;
+            this.sprite.scale.x *= -1
         } else {
             this.sprite.x = -this.sprite.width;
         }
