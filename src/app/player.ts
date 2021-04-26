@@ -88,7 +88,7 @@ export class Player {
 
     takeDamage(damageAmount: number) {
         if (this.collisionCooldown === this.maxCollisionCooldown) {
-            console.log(`${damageAmount} damage!`)
+            //console.log(`${damageAmount} damage!`)
             this.collisionCooldown -= 0.01;
             this.health -= damageAmount;
         }
