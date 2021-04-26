@@ -7,12 +7,6 @@ export class Enemy {
 
     public shouldDestroy: boolean = false;
 
-    private health: number = 100;
-    private speed: number = 5;
-    private floatUp: number = 2;
-    private MAX_VELOCITY: number = 10;
-    private SLOWDOWN_RATE: number = 0.5;
-
     private app: PIXI.Application;
     private pixiManager: PixiManager;
     private textureManager: TextureManager;
@@ -57,9 +51,6 @@ export class Enemy {
 
         this.app.stage.addChild(this.sprite);
         //console.log("velocity " + this.randVelocityVal);
-    }
-
-    attack() {
     }
 
     remove() {

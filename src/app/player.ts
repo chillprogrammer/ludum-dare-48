@@ -45,6 +45,11 @@ export class Player {
         this.app.stage.addChild(this.sprite);
     }
 
+    cleanUp() {
+        this.app.stage.removeChild(this.sprite);
+        this.sprite.destroy();
+    }
+
     moveUp() {
         this.velocity.y -= this.speed;
     }

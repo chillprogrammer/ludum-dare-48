@@ -21,10 +21,12 @@ export class HealthBar {
         this.textureManager = getServiceByClass(TextureManager);
         this.app = this.pixiManager.getApp();
         this.text = new PIXI.Text("Oxygen Tank", { fontSize: 34, fill: 0xffffff, align: 'center' });
+        this.text.zIndex = 10;
         this.text.style.dropShadow = true;
         this.text.style.dropShadowDistance = 4;
         this.text.style.dropShadowColor = '0x222222';
         this.sprite = new PIXI.Sprite(this.textureManager.getTexture("bar.png"));
+        this.sprite.zIndex = 10;
         this.sprite.tint = 0x00FF00;
         this.text.x = 650;
         this.text.y = 5;
@@ -34,6 +36,13 @@ export class HealthBar {
         this.app.stage.addChild(this.text);
         this.app.stage.addChild(this.sprite);
         this.sprite.width = 300;
+    }
+
+    cleanUp() {
+        this.app.stage.removeChild(this.text);
+        this.text.destroy();
+        this.app.stage.removeChild(this.sprite);
+        this.sprite.destroy();
     }
 
     setHealth(health: number) {
