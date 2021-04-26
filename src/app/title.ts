@@ -21,7 +21,6 @@ export class TitleScreen {
         this.app = this.pixiManager.getApp();
         this.background = new PIXI.Sprite(this.textureManager.getTexture("title.png"));
         this.background.scale.set(2, 2);
-        this.app.stage.addChild(this.background);
         this.sprite = new PIXI.Sprite(this.textureManager.getTexture("newGame.png"));
         this.sprite.scale.set(2, 2);
         this.sprite.x = 300;
@@ -37,6 +36,7 @@ export class TitleScreen {
     }
 
     showTitleScreen() {
+        this.app.stage.addChild(this.background);
         this.app.stage.addChild(this.sprite);
     }
 

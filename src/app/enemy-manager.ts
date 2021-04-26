@@ -31,8 +31,18 @@ export class EnemyManager {
         
     }
 
+    cleanUp() {
+        for (let i = 0; i < this.enemyList.length; i++) {
+            let enemy = this.enemyList[i];
+            if (enemy) {
+                enemy.remove();
+                enemy = null;
+            }
+        }
+    }
+
     update(delta: number) {
-        for (let i = 0; i < this.enemyList.length; ++i) {
+        for (let i = 0; i < this.enemyList.length; i++) {
             let enemy = this.enemyList[i];
             if (!enemy) {
                 this.enemyList.splice(i, 1);

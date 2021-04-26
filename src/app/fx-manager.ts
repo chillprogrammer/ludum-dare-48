@@ -28,6 +28,7 @@ export class FxManager {
         gr.beginFill(0xccccff, 0.4);
         gr.drawCircle(xPos, PixiManager.INITIAL_HEIGHT + radius, radius);
         gr.endFill();
+        gr.zIndex = 900;
         this.pixiManager.getApp().stage.addChild(gr);
 
         let floatSpeed = Math.ceil(Math.random() * 3 + 1);
@@ -35,6 +36,18 @@ export class FxManager {
             graphic: gr,
             floatSpeed: floatSpeed
         });
+    }
+
+    cleanUp() {
+        for (let i = 0; i < this.bubbleList.length; ++i) {
+            let bubble = this.bubbleList[i];
+            if (bubble) {
+                bubble.graphic.clear();
+                this.pixiManager.getApp().stage.removeChild(bubble.graphic);
+                bubble.graphic.destroy();
+                bubble.graphic = null;
+            }
+        }
     }
 
     update(delta: number) {
@@ -48,11 +61,11 @@ export class FxManager {
 
                 // Cleanup bubble if off screen
                 if (bubble.graphic.position.y < -PixiManager.INITIAL_HEIGHT - bubble.graphic.height) {
-                    this.pixiManager.getApp().stage.removeChild(bubble.graphic);
-                    this.bubbleList.splice(i, 1);
                     bubble.graphic.clear();
+                    this.pixiManager.getApp().stage.removeChild(bubble.graphic);
                     bubble.graphic.destroy();
                     bubble.graphic = null;
+                    this.bubbleList.splice(i, 1);
                 }
             }
         }

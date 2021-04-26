@@ -9,6 +9,7 @@ import { Player } from "./player";
 import { EnemyManager } from "./enemy-manager";
 import { FxManager } from "./fx-manager";
 import { HealthBar } from "./health-bar";
+import { Sprite } from "pixi.js";
 
 export class Game {
 
@@ -37,6 +38,8 @@ export class Game {
     private enemyManager: EnemyManager;
     private fxManager: FxManager;
     private depthCounter: PIXI.Text;
+    private gameOverSprite: Sprite
+    private returnToTitleButton: PIXI.Text;
 
     // Useful variables
     private secondsCounter: number = 0;
@@ -68,13 +71,16 @@ export class Game {
         // Play sound
         let sound = this.soundManager.getSound("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
         sound.loop(true);
-        //sound.play();
+        sound.play();
 
         //Create the game loop.
         this.app.ticker.add(delta => this.gameLoop(delta));
+        this.app.stage.sortableChildren = true;
     }
 
     titleHidden() {
+
+        this.depth = 0;
 
         // Show health bar 
         this.healthBar = new HealthBar();
@@ -83,7 +89,12 @@ export class Game {
         this.player = new Player();
         this.enemyManager = new EnemyManager();
         this.fxManager = new FxManager();
+        if (this.depthCounter) {
+            this.app.stage.removeChild(this.depthCounter);
+            this.depthCounter.destroy();
+        }
         this.depthCounter = new PIXI.Text('Depth: 0 meters', { fontSize: 34, fill: 0xffffff, align: 'center' });
+        this.depthCounter.zIndex = 10;
         this.depthCounter.style.dropShadow = true;
         this.depthCounter.style.dropShadowDistance = 4;
         this.depthCounter.style.dropShadowColor = '0x222222';
@@ -91,11 +102,45 @@ export class Game {
         this.depthCounter.y = 5;
 
         this.displayMode = this.DisplayModes.Game;
+        this.app.stage.removeChild(this.depthCounter);
         this.app.stage.addChild(this.depthCounter);
     }
 
     gameOver() {
         this.displayMode = this.DisplayModes.Defeat;
+        this.gameOverSprite = new Sprite(this.textureManager.getTexture('game-over.png'));
+        this.gameOverSprite.zIndex = 0;
+        this.app.stage.addChild(this.gameOverSprite);
+        this.returnToTitleButton = new PIXI.Text('Return To Menu', { fontSize: 48, fill: 0xffffff, align: 'center' });
+        this.returnToTitleButton.zIndex = 10;
+        this.returnToTitleButton.style.dropShadow = true;
+        this.returnToTitleButton.style.dropShadowDistance = 4;
+        this.returnToTitleButton.style.dropShadowColor = '0x222222';
+        this.returnToTitleButton.x = PixiManager.INITIAL_WIDTH / 2 - this.returnToTitleButton.width / 2;
+        this.returnToTitleButton.y = PixiManager.INITIAL_HEIGHT - 80;
+        this.returnToTitleButton.interactive = true;
+        (<any>this.returnToTitleButton).on('click', this.returnToMenuScreen.bind(this));
+        this.app.stage.addChild(this.returnToTitleButton);
+
+        this.enemyManager.cleanUp();
+        this.enemyManager = null;
+    }
+
+    returnToMenuScreen() {
+        this.healthBar.cleanUp();
+        this.healthBar = null;
+
+        this.player.cleanUp();
+        this.player = null;
+
+        this.fxManager.cleanUp();
+        this.fxManager = null;
+
+        this.app.stage.removeChild(this.gameOverSprite);
+        this.app.stage.removeChild(this.returnToTitleButton);
+
+        this.displayMode = this.DisplayModes.Title;
+        this.titleScreen.showTitleScreen();
     }
 
     /**
@@ -126,10 +171,8 @@ export class Game {
      * @param delta the delta time between each frame
      */
     gameLoop(delta: number) {
-        if (this.displayMode === this.DisplayModes.Title) {
 
-        }
-        else if (this.displayMode === this.DisplayModes.Game) {
+        if (this.displayMode === this.DisplayModes.Game) {
 
             // Depth Counter
             this.secondsCounter += (1 / 60) * delta;
@@ -201,7 +244,6 @@ export class Game {
                     this.player.takeDamage(enemy.damage);
                     if (this.player.health <= 0) {
                         this.player.health = 0;
-                        console.log("Player Dead!");
                         this.gameOver();
                     }
                     break;
@@ -226,9 +268,15 @@ export class Game {
 
         }
         else if (this.displayMode === this.DisplayModes.Defeat) {
+
+            if (this.enemyManager) {
+                this.enemyManager.update(delta);
+            }
+
             if (this.fxManager) {
                 this.fxManager.update(delta);
             }
         }
+
     }
 }
