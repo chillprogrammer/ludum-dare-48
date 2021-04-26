@@ -61,8 +61,6 @@ export class Game {
     init() {
         this.app = this.pixiManager.getApp();
 
-        this.initializeResources();
-
         // Show title screen 
         this.titleScreen = new TitleScreen();
         this.titleScreen.showTitleScreen();
@@ -126,7 +124,7 @@ export class Game {
 
         this.enemyManager.cleanUp();
         this.enemyManager = null;
-        
+
     }
     changeTint = (event: MouseEvent) => {
         this.returnToTitleButton.tint = 0x000000
@@ -155,34 +153,16 @@ export class Game {
     }
 
     /**
-     * This function loads any resources into memory.
-     */
-    initializeResources() {
-        this.loadTextures();
-        this.loadSounds();
-    }
-
-    /**
-     * This function loads any textures into memory.
-     */
-    loadTextures() {
-        this.textureManager.loadTextureIntoMemory("default.jpg");
-        this.textureManager.removeTextureFromMemory("default.jpg");
-    }
-
-    /**
-    * This function loads any sounds into memory.
-    */
-    loadSounds() {
-        this.soundManager.loadSoundIntoMemory("Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3");
-    }
-
-    /**
      * The main game loop - with delta time parameter.
      * @param delta the delta time between each frame
      */
     gameLoop(delta: number) {
 
+        if (this.displayMode === this.DisplayModes.Title) {
+            if (this.titleScreen) {
+                this.titleScreen.update(delta);
+            }
+        }
         if (this.displayMode === this.DisplayModes.Game) {
 
             // Depth Counter
