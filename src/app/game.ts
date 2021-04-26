@@ -120,10 +120,21 @@ export class Game {
         this.returnToTitleButton.y = PixiManager.INITIAL_HEIGHT - 80;
         this.returnToTitleButton.interactive = true;
         (<any>this.returnToTitleButton).on('click', this.returnToMenuScreen.bind(this));
+        (<any>this.returnToTitleButton).on('mouseover', this.changeTint.bind(this));
+        (<any>this.returnToTitleButton).on('mouseout', this.changeTintBack.bind(this));
         this.app.stage.addChild(this.returnToTitleButton);
 
         this.enemyManager.cleanUp();
         this.enemyManager = null;
+        
+    }
+    changeTint = (event: MouseEvent) => {
+        this.returnToTitleButton.tint = 0x000000
+    }
+
+
+    changeTintBack = (event: MouseEvent) => {
+        this.returnToTitleButton.tint = 0xffffff
     }
 
     returnToMenuScreen() {
