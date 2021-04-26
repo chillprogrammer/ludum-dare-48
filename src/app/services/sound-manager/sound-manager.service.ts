@@ -16,13 +16,9 @@ export class SoundManager {
     }
 
     private init() {
-        var sound = new Howl({
-            src: ['assets/sound/Ludemdare_More_Bass_v2_Electric_Boogaloo.mp3'],
-            autoplay: false,
-            loop: false,
-            volume: 0.5
-        });
+
     }
+
     /**
      * Loads a sound into memory to speed up getSound() calls later.
      * @param path the path of the image file to load.
